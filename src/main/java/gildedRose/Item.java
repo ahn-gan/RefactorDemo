@@ -27,65 +27,47 @@ public class Item {
     }
 
     public void updateQuality() {
-        if (!isAgedBrie()
-                && !isBackstagePassesToATafkal80EtcConcert()) {
-            if (quality > 0) {
-                if (!isSulfurasHandOfRagnaros()) {
-                    quality = quality - 1;
-                }
-            }
-        } else {
-            if (quality < 50) {
-                quality = quality + 1;
-
-                if (isBackstagePassesToATafkal80EtcConcert()) {
-                    if (sellIn < 11) {
-                        if (quality < 50) {
-                            quality = quality + 1;
-                        }
-                    }
-
-                    if (sellIn < 6) {
-                        if (quality < 50) {
-                            quality = quality + 1;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!isSulfurasHandOfRagnaros()) {
-            sellIn = sellIn - 1;
-        }
-
-        if (sellIn < 0) {
-            if (!isAgedBrie()) {
-                if (!isBackstagePassesToATafkal80EtcConcert()) {
-                    if (quality > 0) {
-                        if (!isSulfurasHandOfRagnaros()) {
-                            quality = quality - 1;
-                        }
-                    }
-                } else {
-                    quality = quality - quality;
-                }
-            } else {
+        switch (name) {
+            case AGED_BRIE:
                 if (quality < 50) {
+                    quality += 1;
+                }
+                updateSellIn();
+                if (sellIn < 0 &&quality < 50) {
                     quality = quality + 1;
                 }
-            }
+                break;
+            case BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT:
+                if (quality < 50) {
+                    quality = quality + 1;
+                    if (quality < 50) {
+                        if (sellIn < 11) {
+                            quality += 1;
+                        }
+                        if (sellIn < 6) {
+                            quality += 1;
+                        }
+                    }
+                }
+                updateSellIn();
+                quality = sellIn < 0 ? 0 : quality;
+                break;
+            case SULFURAS_HAND_OF_RAGNAROS:
+                break;
+            default:
+                if (quality > 0) {
+                    quality -= 1;
+                }
+                updateSellIn();
+                if (sellIn < 0 && quality > 0) {
+                    quality -= 1;
+                }
+                break;
         }
+
     }
 
-    private boolean isSulfurasHandOfRagnaros() {
-        return name.equals(SULFURAS_HAND_OF_RAGNAROS);
-    }
-
-    private boolean isBackstagePassesToATafkal80EtcConcert() {
-        return name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT);
-    }
-
-    private boolean isAgedBrie() {
-        return name.equals(AGED_BRIE);
+    private void updateSellIn() {
+        sellIn -= 1;
     }
 }
