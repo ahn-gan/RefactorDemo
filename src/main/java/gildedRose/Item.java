@@ -2,6 +2,10 @@ package gildedRose;
 
 public class Item {
 
+    private final String AGED_BRIE = "Aged Brie";
+    private final String BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
+    private final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
+
     private String name;
 
     private int sellIn;
@@ -23,10 +27,10 @@ public class Item {
     }
 
     public void updateQuality() {
-        if (!name.equals("Aged Brie")
-                && !name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+        if (!isAgedBrie()
+                && !isBackstagePassesToATafkal80EtcConcert()) {
             if (quality > 0) {
-                if (!name.equals("Sulfuras, Hand of Ragnaros")) {
+                if (!isSulfurasHandOfRagnaros()) {
                     quality = quality - 1;
                 }
             }
@@ -34,7 +38,7 @@ public class Item {
             if (quality < 50) {
                 quality = quality + 1;
 
-                if (name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+                if (isBackstagePassesToATafkal80EtcConcert()) {
                     if (sellIn < 11) {
                         if (quality < 50) {
                             quality = quality + 1;
@@ -50,15 +54,15 @@ public class Item {
             }
         }
 
-        if (!name.equals("Sulfuras, Hand of Ragnaros")) {
+        if (!isSulfurasHandOfRagnaros()) {
             sellIn = sellIn - 1;
         }
 
         if (sellIn < 0) {
-            if (!name.equals("Aged Brie")) {
-                if (!name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+            if (!isAgedBrie()) {
+                if (!isBackstagePassesToATafkal80EtcConcert()) {
                     if (quality > 0) {
-                        if (!name.equals("Sulfuras, Hand of Ragnaros")) {
+                        if (!isSulfurasHandOfRagnaros()) {
                             quality = quality - 1;
                         }
                     }
@@ -71,5 +75,17 @@ public class Item {
                 }
             }
         }
+    }
+
+    private boolean isSulfurasHandOfRagnaros() {
+        return name.equals(SULFURAS_HAND_OF_RAGNAROS);
+    }
+
+    private boolean isBackstagePassesToATafkal80EtcConcert() {
+        return name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT);
+    }
+
+    private boolean isAgedBrie() {
+        return name.equals(AGED_BRIE);
     }
 }
