@@ -31,4 +31,16 @@ public class GildedRoseTest {
         Assert.assertEquals(9, items[0].getSellIn());
     }
 
+    @Test
+    public void should_return_10_when_given_item_with_Sulfuras_Hand_of_Ragnaros_name() {
+        // given
+        Item[] items = {new Item("Sulfuras, Hand of Ragnaros", 10, 10)};
+        GildedRose gildedRose = new GildedRose(items);
+
+        gildedRose.updateQuality();
+
+        Assert.assertEquals(10, items[0].getQuality());
+        Assert.assertEquals(10, items[0].getSellIn());
+    }
+
 }
