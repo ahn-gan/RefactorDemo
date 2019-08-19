@@ -12,6 +12,8 @@ public class Item {
 
     private int quality;
 
+    private QualityStrategy qualityStrategy;
+
     public Item(String name, int sellIn, int quality) {
         this.name = name;
         this.sellIn = sellIn;
@@ -26,48 +28,29 @@ public class Item {
         return quality;
     }
 
+    public void setSellIn(int sellIn) {
+        this.sellIn = sellIn;
+    }
+
+    public void setQuality(int quality) {
+        this.quality = quality;
+    }
+
     public void updateQuality() {
         switch (name) {
             case AGED_BRIE:
-                if (quality < 50) {
-                    quality += 1;
-                }
-                updateSellIn();
-                if (sellIn < 0 &&quality < 50) {
-                    quality = quality + 1;
-                }
+                qualityStrategy = new AgedBrieStrategy();
                 break;
             case BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT:
-                if (quality < 50) {
-                    quality = quality + 1;
-                    if (quality < 50) {
-                        if (sellIn < 11) {
-                            quality += 1;
-                        }
-                        if (sellIn < 6) {
-                            quality += 1;
-                        }
-                    }
-                }
-                updateSellIn();
-                quality = sellIn < 0 ? 0 : quality;
+                qualityStrategy = new BackstagePassesStrategy();
                 break;
             case SULFURAS_HAND_OF_RAGNAROS:
+                qualityStrategy = new SulfurasStrategy();
                 break;
             default:
-                if (quality > 0) {
-                    quality -= 1;
-                }
-                updateSellIn();
-                if (sellIn < 0 && quality > 0) {
-                    quality -= 1;
-                }
+                qualityStrategy = new DefaultStrategy();
                 break;
         }
-
-    }
-
-    private void updateSellIn() {
-        sellIn -= 1;
+        qualityStrategy.updateItemQuality(this);
     }
 }
