@@ -16,6 +16,19 @@ public class GildedRoseTest {
         gildedRose.updateQuality();
 
         Assert.assertEquals(9, items[0].getQuality());
+        Assert.assertEquals(9, items[0].getSellIn());
+    }
+
+    @Test
+    public void should_return_0_when_given_item_with_general_name_but_quality_is_0() {
+        // given
+        Item[] items = {new Item("test item", 10, 0)};
+        GildedRose gildedRose = new GildedRose(items);
+
+        gildedRose.updateQuality();
+
+        Assert.assertEquals(0, items[0].getQuality());
+        Assert.assertEquals(9, items[0].getSellIn());
     }
 
 }
