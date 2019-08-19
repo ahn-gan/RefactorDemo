@@ -91,4 +91,16 @@ public class GildedRoseTest {
         Assert.assertEquals(5, items[0].getSellIn());
     }
 
+    @Test
+    public void should_return_43_when_given_item_with_Backstage_passes_to_a_TAFKAL80ETC_concert_name_and_sellIn_is_5() {
+        // given
+        Item[] items = {new Item("Backstage passes to a TAFKAL80ETC concert", 5, 40)};
+        GildedRose gildedRose = new GildedRose(items);
+
+        gildedRose.updateQuality();
+
+        Assert.assertEquals(43, items[0].getQuality());
+        Assert.assertEquals(4, items[0].getSellIn());
+    }
+
 }
